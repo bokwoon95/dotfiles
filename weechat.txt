@@ -1,0 +1,55 @@
+# First time IRC users
+/msg nickserv register <password> <email>
+/msg nickserv identify <password>
+
+# Sane defaults
+/set irc.look.smart_filter on
+/filter add irc_smart * irc_smart_filter *
+/mouse enable
+/set weechat.look.save_layout_on_exit all
+/save
+
+# Freenode
+/server add freenode chat.freenode.net/6697 -ssl
+/set irc.server.freenode.addresses "chat.freenode.net/6697"
+/set irc.server.freenode.ssl on
+/set irc.server.freenode.sasl_mechanism PLAIN
+/set irc.server.freenode.sasl_username <nickname>
+/set irc.server.freenode.sasl_password <password>
+/set irc.server.freenode.autoconnect on
+/set irc.server.freenode.autojoin #vim,#go-nuts
+/save
+
+# Gitter
+# https://irc.gitter.im/login
+/server add gitter irc.gitter.im
+/set irc.server.gitter.ssl on
+/set irc.server.gitter.password <password>
+/set irc.server.gitter.autoconnect on
+/save
+
+# Rizon
+/server add rizon irc.rizon.net/6697 -ssl
+/set irc.server.rizon.ssl on
+/set irc.server.rizon.sasl_mechanism PLAIN
+/set irc.server.rizon.sasl_username <nickname>
+/set irc.server.rizon.sasl_password <password>
+/set irc.server.rizon.autoconnect on
+/set irc.server.rizon.autojoin #4chan
+/save
+
+# Nlnog
+/server add nlnog irc.nlnog.net/6697
+/set irc.server.nlnog.ssl on
+/set irc.server.nlnog.autoconnect on
+/set irc.server.nlnog.autojoin #worldchat
+
+# Plugins
+/script install autosort.py
+/script install multiline.pl
+/key bind meta-ctrl-M /input insert \x0a
+/set plugins.var.perl.multiline.magic ""
+/set plugins.var.perl.multiline.magic_enter_time "1"
+/script install urlgrab.py
+/script install highmon.pl
+/save

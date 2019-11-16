@@ -16,8 +16,9 @@ if [ $# -eq 0 ]; then
   echo '   symlinks'
 fi
 
-mkdir -p /usr/local/bin
-if [ ! -r /usr/local/bin ] || [ ! -w /usr/local/bin ]; then
+mkdir -p "$HOME/local/bin"
+export PATH="$PATH:$HOME/local/bin"
+if [ -d /usr/local/bin ] && ([ ! -r /usr/local/bin ] || [ ! -w /usr/local/bin ]); then
   sudo chmod u+rw /usr/local/bin
 fi
 
@@ -25,7 +26,7 @@ if [ "$Xcode" ] || ! command -v git >/dev/null 2>&1; then
   printf 'Installing jq1.6... '
   curl -sSLO https://github.com/bokwoon95/dotfiles/raw/master/bin/jq1.6 &&
     chmod a+x jq1.6 &&
-    mv jq1.6 /usr/local/bin/
+    mv jq1.6 "$HOME/local/bin"
   if ! command -v jq1.6 >/dev/null 2>&1; then
     echo 'jq1.6 was not installed successfully, aborting'
     exit 1
@@ -35,7 +36,7 @@ if [ "$Xcode" ] || ! command -v git >/dev/null 2>&1; then
   printf 'Installing pup0.4... '
   curl -sSLO https://github.com/bokwoon95/dotfiles/raw/master/bin/pup0.4 &&
     chmod a+x pup0.4 &&
-    mv pup0.4 /usr/local/bin/
+    mv pup0.4 "$HOME/local/bin"
   if ! command -v pup0.4 >/dev/null 2>&1; then
     echo 'pup0.4 was not installed successfully, aborting'
     exit 1
@@ -45,7 +46,7 @@ if [ "$Xcode" ] || ! command -v git >/dev/null 2>&1; then
   printf 'Installing paralel... '
   curl -sSLO https://github.com/bokwoon95/dotfiles/raw/master/bin/paralel &&
     chmod a+x paralel &&
-    mv paralel /usr/local/bin/
+    mv paralel "$HOME/local/bin"
   if ! command -v paralel >/dev/null 2>&1; then
     echo 'paralel was not installed successfully, aborting'
     exit 1
