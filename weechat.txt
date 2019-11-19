@@ -39,8 +39,7 @@
 /save
 
 # Nlnog
-/server add nlnog irc.nlnog.net/6697
-/set irc.server.nlnog.ssl on
+/server add nlnog irc.nlnog.net
 /set irc.server.nlnog.autoconnect on
 /set irc.server.nlnog.autojoin #worldchat
 
