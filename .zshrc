@@ -78,7 +78,10 @@ elif echo $0 | grep -q zsh; then
 	# setopt correctall
 	setopt MENU_COMPLETE
 	# zsh-autosuggestions settings
-	[ ! -d "$HOME/.zsh/zsh-autosuggestions" ] && command -v git &>/dev/null && git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.zsh/zsh-autosuggestions"
+	[ ! -d "$HOME/.zsh/zsh-autosuggestions" ] \
+		&& command -v git &>/dev/null \
+		&& echo 'zsh-autosuggestions not found' \
+		&& git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.zsh/zsh-autosuggestions"
 	[ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && . "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 	# add plugins=(zsh-autosuggestions) under plugins=(git) (L54)
 	# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=0'
@@ -110,9 +113,9 @@ if echo $0 | grep -q bash; then
 			. "$HOME/dotfiles/git-prompt.sh"
 		fi
 		if command -v __git_ps1 &>/dev/null; then
-			PS1='\[$(tput bold)\]\H\[$(tput sgr0)\] \w $(__git_ps1 "(%s)")\n\u\[$(tput bold)\]\$\[$(tput sgr0)\] '
+			PS1='\H \[$(tput bold)\]\w\[$(tput sgr0)\] $(__git_ps1 "(%s)")\n\u\[$(tput bold)\]\$\[$(tput sgr0)\] '
 		else
-			PS1='\[$(tput bold)\]\H\[$(tput sgr0)\] \w\n\u\[$(tput bold)\]\$\[$(tput sgr0)\] '
+			PS1='\H \[$(tput bold)\]\w\[$(tput sgr0)\]\n\u\[$(tput bold)\]\$\[$(tput sgr0)\] '
 		fi
 	else
 		PS1='\H \w\n\u\$ '
@@ -264,8 +267,9 @@ EXAMPLE: ff-convert-to-mp3 *.flac"
 fi
 
 # Aliases
-alias cdz="$EDITOR $HOME/.bashrc"
-alias sdz=". $HOME/.bashrc"
+echo $0 | grep -q zsh && rcfile="$HOME/.zshrc" || rcfile="$HOME/.bashrc"
+alias cdz="$EDITOR $rcfile"
+alias sdz=". $rcfile"
 alias ..='cd .. && pwd && ls'
 alias ...='cd ../.. && pwd && ls'
 alias ....='cd ../../.. && pwd && ls'
@@ -362,7 +366,7 @@ alias g="git "
 if echo $0 | grep -q bash; then
 	:
 elif echo $0 | grep -q zsh; then
-	. ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+	. "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null || true
 fi
 path-prepend "$HOME/.opam/default/bin"
 if [ -d "$HOME/.opam" ]; then
