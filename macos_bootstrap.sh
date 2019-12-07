@@ -552,153 +552,34 @@ if [ "$Homebrew_Opts" ]; then
 fi
 
 if command -v git >/dev/null 2>&1 && [ "$Symlinks" ]; then
-  if [ ! -d "$HOME/.vim" ]; then
-    git clone https://github.com/bokwoon95/.vim ~/.vim
-  fi
-  if [ ! -d "$HOME/.emacs.d" ]; then
-    git clone https://github.com/bokwoon95/.emacs.d ~/.emacs.d
-  fi
-  if [ ! -d "$HOME/.zsh/zsh-autosuggestions" ]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-  fi
-  if [ ! -d "$HOME/.tmux" ]; then
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  fi
-
-  # ~/.zshrc
-  if [ -f "$HOME/.zshrc" ] && [ ! -L "$HOME/.zshrc" ]; then
-    echo "existing ~/.zshrc found, renaming it to ~/.zshrc.bak"
-    rm ~/.zshrc.bak
-    mv ~/.zshrc ~/.zshrc.bak
-  fi
-  if [ -L "$HOME/.zshrc" ]; then
-    unlink ~/.zshrc
-  fi
-  ln -s ~/.vim/.zshrc ~/.zshrc && echo "symlinked ~/.zshrc@"
-
-  # ~/.bashrc
-  if [ -f "$HOME/.bashrc" ] && [ ! -L "$HOME/.bashrc" ]; then
-    echo "existing ~/.bashrc found, renaming it to ~/.bashrc.bak"
-    rm ~/.bashrc.bak
-    mv ~/.bashrc ~/.bashrc.bak
-  fi
-  if [ -L "$HOME/.bashrc" ]; then
-    unlink ~/.bashrc
-  fi
-  ln -s ~/.vim/.bashrc ~/.bashrc && echo "symlinked ~/.bashrc@"
-
-  # ~/.tmux.conf
-  if [ -f "$HOME/.tmux.conf" ] && [ ! -L "$HOME/.tmux.conf" ]; then
-    echo "existing ~/.tmux.conf found, renaming it to ~/.tmux.conf.bak"
-    rm ~/.tmux.conf.bak
-    mv ~/.tmux.conf ~/.tmux.conf.bak
-  fi
-  if [ -L "$HOME/.tmux.conf" ]; then
-    unlink ~/.tmux.conf
-  fi
-  ln -s ~/.vim/.tmux.conf ~/.tmux.conf && echo "symlinked ~/.tmux.conf@"
-
-  # ~/.config/nvim/init.vim
-  mkdir -p ~/.config/nvim/
-  if [ -f "$HOME/.config/nvim/init.vim" ] && [ ! -L "$HOME/.config/nvim/init.vim" ]; then
-    echo "existing ~/config/nvim/init.vim found, renaming it to ~/config/nvim/init.vim.bak"
-    rm ~/config/nvim/init.vim.bak
-    mv ~/config/nvim/init.vim ~/config/nvim/init.vim.bak
-  fi
-  if [ -L "$HOME/.config/nvim/init.vim" ]; then
-    unlink ~/.config/nvim/init.vim
-  fi
-  ln -s ~/.vim/vimrc ~/.config/nvim/init.vim && echo "symlinked ~/.config/nvim/init.vim@"
-
-  # ~/.config/nvim/after
-  if [ -d "$HOME/.config/nvim/after" ] && [ ! -L "$HOME/.config/nvim/after" ]; then
-    echo "existing ~/config/nvim/after found, renaming it to ~/config/nvim/after.bak"
-    rm -rf ~/config/nvim/after.bak
-    mv ~/config/nvim/after ~/config/nvim/after.bak
-  fi
-  if [ -L "$HOME/.config/nvim/after" ]; then
-    unlink ~/.config/nvim/after
-  fi
-  ln -s ~/.vim/after ~/.config/nvim/after && echo "symlinked ~/.config/nvim/after@"
-
-  # ~/.gitignore
-  if [ -f "$HOME/.gitignore" ] && [ ! -L "$HOME/.gitignore" ]; then
-    echo "existing ~/.gitignore found, renaming it to ~/.gitignore.bak"
-    rm ~/.gitignore.bak
-    mv ~/.gitignore ~/.gitignore.bak
-  fi
-  if [ -L "$HOME/.gitignore" ]; then
-    unlink ~/.gitignore
-  fi
-  ln -s ~/.vim/gitignore-mac ~/.gitignore && echo "symlinked ~/.gitignore@"
-
-  # ~/.hammerspoon/init.lua
-  if [ -f "$HOME/.hammerspoon/init.lua" ] && [ ! -L "$HOME/.hammerspoon/init.lua" ]; then
-    echo "existing ~/.hammerspoon/init.lua found, renaming it to ~/.hammerspoon/init.lua.bak"
-    rm ~/.hammerspoon/init.lua.bak
-    mv ~/.hammerspoon/init.lua ~/.hammerspoon/init.lua.bak
-  fi
-  mkdir -p ~/.hammerspoon
-  if [ -L "$HOME/.hammerspoon/init.lua" ]; then
-    unlink ~/.hammerspoon/init.lua
-  fi
-  ln -s ~/.vim/init.lua ~/.hammerspoon/init.lua && echo "symlinked ~/.hammerspoon/init.lua@"
-
-  # ~/.local/bin/
-  if [ ! -d "$HOME/.local/bin/" ]; then
-    mkdir -p ~/.local/bin
-  fi
-
-  # ~/.local/bin/sshrc
-  if [ -f "$HOME/.local/bin/sshrc" ] && [ ! -L "$HOME/.local/bin/sshrc" ]; then
-    echo "existing ~/.local/bin/sshrc found, renaming it to ~/.local/bin/sshrc.bak"
-    rm ~/.local/bin/sshrc.bak
-    mv ~/.local/bin/sshrc ~/.local/bin/sshrc.bak
-  fi
-  if [ -L "$HOME/.local/bin/sshrc" ]; then
-    unlink ~/.local/bin/sshrc
-  fi
-  ln -s ~/.vim/sshrc ~/.local/bin/sshrc && echo "symlinked ~/.local/bin/sshrc@"
-
-  # ~/.config/nvim/Ultisnips
-  if [ -f "$HOME/.config/nvim/Ultisnips" ] && [ ! -L "$HOME/.config/nvim/Ultisnips" ]; then
-    echo "existing ~/.config/nvim/Ultisnips found, renaming it to ~/.config/nvim/Ultisnips.bak"
-    rm ~/.config/nvim/Ultisnips.bak
-    mv ~/.config/nvim/Ultisnips ~/.config/nvim/Ultisnips.bak
-  fi
-  if [ -L "$HOME/.config/nvim/Ultisnips" ]; then
-    unlink ~/.config/nvim/Ultisnips
-  fi
-  ln -s ~/.vim/Ultisnips ~/.config/nvim/Ultisnips && echo "symlinked ~/.config/nvim/Ultisnips@"
-
-  # ~/.config/cmus/rc
-  mkdir -p ~/.config/cmus/
-  if [ -f "$HOME/.config/cmus/rc" ] && [ ! -L "$HOME/.config/cmus/rc" ]; then
-    echo "existing ~/.config/cmus/rc found, renaming it to ~/.config/cmus/rc.bak"
-    rm ~/.config/cmus/rc.bak
-    mv ~/.config/cmus/rc ~/.config/cmus/rc.bak
-  fi
-  if [ -L "$HOME/.config/cmus/rc" ]; then
-    unlink ~/.config/cmus/rc
-  fi
-  ln -s ~/.vim/cmusrc ~/.config/cmus/rc && echo "symlinked ~/.config/cmus/rc@"
-
-  # ~/.config/kitty/kitty.conf
-  mkdir -p ~/.config/kitty
-  if [ ! -f "$HOME/.config/kitty/kitty.conf" ]; then
-    echo "copying ~/.vim/kitty.conf to ~/.config/kitty/kitty.conf"
-    cp ~/.vim/kitty.conf ~/.config/kitty/kitty.conf
-  fi
-
-  # ~/.config/flake8
-  if [ -f "$HOME/.config/flake8" ] && [ ! -L "$HOME/.config/flake8" ]; then
-    echo "existing ~/.config/flake8 found, renaming it to ~/.config/flake8.bak"
-    rm ~/.config/flake8.bak
-    mv ~/.config/flake8 ~/.config/flake8.bak
-  fi
-  mkdir -p ~/.config
-  if [ -L "$HOME/.config/flake8" ]; then
-    unlink ~/.config/flake8
-  fi
-  ln -s ~/.vim/flake8 ~/.config/flake8 && echo "symlinked ~/.config/flake8@"
+  symlink() {
+    local source="$1"
+    local dest="$2"
+    local destdir="$(echo "$dest" | sed 's#\(.*\)/.*#\1#')"
+    mkdir -p "$destdir"
+    if [ -f "$dest" ] && [ ! -L "$dest" ]; then
+      echo "existing $dest found, renaming it to $dest.bak"
+      rm "$dest.bak"
+      mv "$dest" "$dest.bak"
+    fi
+    [ -L "$dest" ] && unlink "$dest"
+    ln -s "$source" "$dest" && echo "symlinked $dest@"
+  }
+  dothome="$HOME/dotfiles"
+[ ! -d "$dothome" ] && git clone https://github.com/bokwoon95/dotfiles "$dothome"
+  symlink "$dothome/.zshrc" "$HOME/.zshrc"
+  symlink "$dothome/.zshrc" "$HOME/.bashrc"
+  symlink "$dothome/.tmux.conf" "$HOME/.tmux.conf"
+  symlink "$dothome/.tigrc" "$HOME/.tigrc"
+  symlink "$dothome/.psqlrc" "$HOME/.psqlrc"
+  symlink "$dothome/.inputrc" "$HOME/.inputrc"
+  symlink "$dothome/cmusrc" "$HOME/.config/cmus/rc"
+  symlink "$dothome/gitignore" "$HOME/.gitignore"
+  [ ! -d "$HOME/.vim" ] && git clone https://github.com/bokwoon95/.vim "$HOME/.vim"
+  symlink "$HOME/.vim/vimrc" "$HOME/.config/nvim/init.vim"
+  symlink "$HOME/.vim/after/" "$HOME/.config/nvim/"
+  symlink "$HOME/.vim/Ultisnips/" "$HOME/.config/nvim/"
+  [ ! -d "$HOME/.emacs.d" ] && git clone https://github.com/bokwoon95/.emacs.d "$HOME/.emacs.d"
+  [ ! -d "$HOME/.zsh/zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.zsh/zsh-autosuggestions"
+  [ ! -d "$HOME/.tmux/plugins/tpm" ] && git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
 fi

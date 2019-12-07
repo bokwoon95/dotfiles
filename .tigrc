@@ -1,0 +1,11 @@
+# *color* 'area' 'fgcolor' 'bgcolor' '[attributes]'
+
+color cursor 7 17 bold
+
+set mouse = yes
+set wrap-lines = yes
+bind diff F :/^\+\+\+
+set diff-highlight = true
+
+#Tips:
+#You can press 'e' in diff mode to jump to the relevant file in your default editor (such as vim). Save and quit to go back to tig.
