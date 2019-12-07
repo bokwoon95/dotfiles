@@ -8,10 +8,10 @@ add_ppa ubuntu-elisp/ppa
 sudo apt-get update 
 
 mkdir -p "$HOME/local/bin"
-[ ! "$(echo ":$PATH:" | grep ":$HOME/local/bin:" )" ] && echo 'PATH="$PATH:$HOME/local/bin"' >> "$HOME/.bashrc"
+[ ! "$(echo ":$PATH:" | grep ":$HOME/local/bin:" )" ] && echo 'PATH="$HOME/local/bin:$PATH"' >> "$HOME/.bashrc"
 . "$HOME/.bashrc"
 
-if command -v curl >/dev/null 2>&1; then sudo apt-get install curl; fi
+if ! command -v curl >/dev/null 2>&1; then sudo apt-get install curl; fi
 sudo apt-get install -y git tmux zsh vim emacs silversearcher-ag
 if ! command -v nvim >/dev/null 2>&1; then
 	curl -Lo /tmp/nvim.appimage https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
@@ -21,6 +21,10 @@ if ! command -v nvim >/dev/null 2>&1; then
 	else
 		mv /tmp/nvim.appimage "$HOME/local/bin/nvim"
 	fi
+fi
+sudo apt-get install -y emacs-snapshot
+if command -v emacs-snapshot >/dev/null 2>&1 && [ "$(command -v emacs-snapshot)" != "$(command -v emacs)" ]; then
+	ln -s "$(command -v emacs-snapshot)" "$HOME/local/bin/emacs"
 fi
 if ! command -v fzf >/dev/null 2>&1; then
 	git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
