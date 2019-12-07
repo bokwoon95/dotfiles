@@ -9,7 +9,7 @@ sudo apt-get update
 
 mkdir -p "$HOME/local/bin"
 [ ! "$(echo ":$PATH:" | grep ":$HOME/local/bin:" )" ] && echo 'PATH="$HOME/local/bin:$PATH"' >> "$HOME/.bashrc"
-. "$HOME/.bashrc"
+exec "$BASH" # Reload bash
 
 if ! command -v curl >/dev/null 2>&1; then sudo apt-get install curl; fi
 sudo apt-get install -y git tmux zsh vim emacs silversearcher-ag
@@ -22,7 +22,7 @@ if ! command -v nvim >/dev/null 2>&1; then
 		mv /tmp/nvim.appimage "$HOME/local/bin/nvim"
 	fi
 fi
-sudo apt-get install -y emacs-snapshot
+sudo apt-get install -y emacs-snapshot # from ubuntu-elisp/ppa
 if command -v emacs-snapshot >/dev/null 2>&1 && [ "$(command -v emacs-snapshot)" != "$(command -v emacs)" ]; then
 	ln -s "$(command -v emacs-snapshot)" "$HOME/local/bin/emacs"
 fi
