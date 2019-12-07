@@ -1,7 +1,9 @@
 #!/bin/bash
 
 add_ppa() {
-  [ ! "$(grep -q "^deb .*$1" /etc/apt/sources.list.d/*)" ] && sudo add-apt-repository -y "ppa:$1"
+  if [ ! "$(ls -A /etc/apt/sources.list.d/)" ] || grep -q "^deb .*$1" /etc/apt/sources.list.d/*; then
+    sudo add-apt-repository -y "ppa:$1"
+  fi
 }
 add_ppa jonathonf/vim
 add_ppa ubuntu-elisp/ppa
@@ -9,7 +11,7 @@ sudo apt-get update
 
 mkdir -p "$HOME/local/bin"
 
-if ! command -v curl &>/dev/null; then sudo apt-get install curl; fi
+if ! command -v curl &>/dev/null; then sudo apt-get install -y curl; fi
 sudo apt-get install -y git tmux zsh vim emacs silversearcher-ag
 if ! command -v nvim &>/dev/null; then
   curl -Lo /tmp/nvim.appimage https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
