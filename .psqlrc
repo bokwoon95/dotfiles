@@ -1,0 +1,8 @@
+\set QUIET 1
+\pset null '𝗡𝗨𝗟𝗟'
+\x auto
+\pset linestyle unicode
+\pset border 1
+\set x '\\setenv PAGER \'less -RiMSFX#4\''
+\set xx '\\setenv PAGER \'pspg -bX --no-mouse\''
+\set QUIET 0
