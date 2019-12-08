@@ -1,7 +1,7 @@
-[ "$(uname)" = 'Darwin' ] && macos=true
-[ "$(uname)" = 'Linux' ] && [ "$WSL_DISTRO_NAME" ] && command -v clip.exe &>/dev/null && wsl=true
-[ "$(uname)" = 'Linux' ] && [ ! "$WSL_DISTRO_NAME" ] && command -v clip.exe &>/dev/null && gitbash=true
-[ "$(uname)" = 'Linux' ] && [ ! "$WSL_DISTRO_NAME" ] && ! command -v clip.exe &>/dev/null && linux=true
+uname | grep -q Darwin && export macos=true
+uname | grep -q MINGW && export gitbash=true
+uname | grep -q Linux  && command -v clip.exe &>/dev/null && export wsl=true
+uname | grep -q Linux  && ! command -v clip.exe &>/dev/null && export linux=true
 path-prepend() { [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && PATH="$1${PATH:+":$PATH"}"; }
 path-append() { [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && PATH="${PATH:+"$PATH:"}$1"; }
 command -v tput &>/dev/null && ( tput setaf || tput AF ) &>/dev/null && COLORS_SUPPORTED=true
@@ -109,13 +109,14 @@ if echo $0 | grep -q bash; then
       . "$HOME/dotfiles/git-prompt.sh"
     fi
     if command -v __git_ps1 &>/dev/null; then
-      PS1='\H \[$(tput bold)\]\w\[$(tput sgr0)\] $(__git_ps1 "(%s)")\n\u\[$(tput bold)\]\$\[$(tput sgr0)\] '
+      PS1='\H \[`tput bold`\]\w\[`tput sgr0`\] `__git_ps1 "(%s)"`\n\u\[`tput bold`\]\$\[`tput sgr0`\] '
     else
-      PS1='\H \[$(tput bold)\]\w\[$(tput sgr0)\]\n\u\[$(tput bold)\]\$\[$(tput sgr0)\] '
+      PS1='\H \[`tput bold`\]\w\[`tput sgr0`\]\n\u\[`tput bold`\]\$\[`tput sgr0`\] '
     fi
   else
     PS1='\H \w\n\u\$ '
   fi
+  [ "$gitbash" ] && PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n\$ '
 elif echo $0 | grep -q zsh; then
   setopt PROMPT_SUBST # Enable parameter expansion, command substitution, and arithmetic expansion in the prompt
   setopt TRANSIENT_RPROMPT # only show the rprompt on the current prompt
@@ -238,7 +239,7 @@ EXAMPLE: ff-convert-to-mp4 video1.TS video2.TS video3.mov"
         .ts|.TS) ffmpeg -i "$filename" -acodec copy -vcodec copy "$fname.mp4";;
         .avi|.AVI) ffmpeg -i "$filename" -c:a aac -b:a 128k -c:v libx264 -crf 23 "$fname.mp4";;
         .wmv|.WMV) ffmpeg -i "$filename" -c:v libx264 -crf 23 -c:a aac -strict -2 -q:a 100 "$fname.mp4";;
-        .webm|.WEBM) ffmpeg -i "$filename" "${filename%.webm}.mp4";;
+        .webm|.WEBM) ffmpeg -i "$filename" "$fname.mp4";;
         *) echo "unrecognized extension '$fext'";;
       esac
       echo "----------------------------------------"
