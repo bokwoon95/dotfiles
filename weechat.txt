@@ -45,12 +45,12 @@
 
 # Plugins
 /script install autosort.py
-/script install multiline.pl
-/key bind meta-ctrl-M /input insert \x0a
-/set plugins.var.perl.multiline.magic ""
-/set plugins.var.perl.multiline.magic_enter_time "1"
 /script install urlgrab.py
 /set urlgrab.default.localcmd "open '%s'"
 /set urlgrab.default.copycmd pbcopy
 /script install highmon.pl
+/script install multiline.pl
+/key bind meta-ctrl-M /input insert \x0a
+/set plugins.var.perl.multiline.magic ""
+/set plugins.var.perl.multiline.magic_enter_time "1"
 /save
