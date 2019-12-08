@@ -1,7 +1,7 @@
 #!/bin/bash
 
 add_ppa() {
-  if [ ! "$(ls -A /etc/apt/sources.list.d/)" ] || grep -q "^deb .*$1" /etc/apt/sources.list.d/*; then
+  if [ "$(ls -A /etc/apt/sources.list.d/)" ] && ! grep -q "^deb .*$1" /etc/apt/sources.list.d/*; then
     sudo add-apt-repository -y "ppa:$1"
   fi
 }
