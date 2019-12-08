@@ -1,5 +1,5 @@
 uname | grep -q Darwin && export macos=true
-uname | grep -q MINGW && ! command -v pacman &>/dev/null export gitbash=true
+uname | grep -q MINGW && ! command -v pacman &>/dev/null && export gitbash=true
 uname | grep -q Linux  && command -v clip.exe &>/dev/null && export wsl=true
 uname | grep -q Linux  && ! command -v clip.exe &>/dev/null && export linux=true
 path-prepend() { [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && PATH="$1${PATH:+":$PATH"}"; }
