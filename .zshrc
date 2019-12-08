@@ -317,10 +317,11 @@ fi
 
 # WSL
 if [ "$wsl" ]; then
-  alias dbox="cd $HOME/Dropbox/ && pwd && ls"
-  alias doc="cd $HOME/Documents/ && pwd && ls"
-  alias desk="cd $HOME/Desktop/ && pwd && ls"
-  alias down="cd /mnt/d/Users/$(whoami)/Downloads/ && pwd && ls"
+  alias dbox="cd /mnt/c/Users/cbw/Dropbox/ && pwd && ls"
+  alias doc="cd /mnt/c/Users/cbw/Documents/ && pwd && ls"
+  alias desk="cd /mnt/c/Users/cbw/Desktop/ && pwd && ls"
+  alias down="cd /mnt/d/Users/cbw/Downloads/ && pwd && ls"
+  alias home="cd /mnt/c/Users/cbw && pwd && ls"
 fi
 
 # Linux
