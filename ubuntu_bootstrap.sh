@@ -23,8 +23,8 @@ if ! command -v nvim &>/dev/null; then
   fi
 fi
 sudo apt-get install -y emacs-snapshot # from ubuntu-elisp/ppa
-if command -v emacs-snapshot &>/dev/null && [ -L "$HOME/local/bin/emacs" ]; then
-  unlink "$HOME/local/bin/emacs"
+if command -v emacs-snapshot &>/dev/null && [ ! -f "$HOME/local/bin/emacs" -o -L "$HOME/local/bin/emacs" ]; then
+  rm -f "$HOME/local/bin/emacs"
   ln -s "$(command -v emacs-snapshot)" "$HOME/local/bin/emacs"
 fi
 if command -v git &>/dev/null && ! command -v fzf &>/dev/null; then
