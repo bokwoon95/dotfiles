@@ -1,5 +1,5 @@
 uname | grep -q Darwin && export macos=true
-uname | grep -q MINGW && export gitbash=true
+uname | grep -q MINGW && ! command -v pacman &>/dev/null export gitbash=true
 uname | grep -q Linux  && command -v clip.exe &>/dev/null && export wsl=true
 uname | grep -q Linux  && ! command -v clip.exe &>/dev/null && export linux=true
 path-prepend() { [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && PATH="$1${PATH:+":$PATH"}"; }
@@ -294,9 +294,33 @@ if [ "$macos" ]; then
   alias trash="cd $HOME/.Trash/ && pwd && ls"
 fi
 
+# Windows
 if [ "$wsl" ] || [ "$gitbash" ]; then
   xo() { cmd.exe /C start "$@"; }
   command -v recycle.exe &>/dev/null && alias rmt='recycle.exe'
+fi
+
+cdls() {
+  local dest="$1"
+  uname | grep -q MINGW && ! command -v pacman &>/dev/null && local gitbash=true
+  uname | grep -q Linux && command -v clip.exe &>/dev/null && local wsl=true
+  cd "$dest" && pwd && ls
+}
+
+# Git Bash
+if [ "$gitbash" ]; then
+  alias dbox="cd $HOME/Dropbox/ && pwd && ls"
+  alias doc="cd $HOME/Documents/ && pwd && ls"
+  alias desk="cd $HOME/Desktop/ && pwd && ls"
+  alias down="cd /d/Users/$(whoami)/Downloads/ && pwd && ls"
+fi
+
+# WSL
+if [ "$wsl" ]; then
+  alias dbox="cd $HOME/Dropbox/ && pwd && ls"
+  alias doc="cd $HOME/Documents/ && pwd && ls"
+  alias desk="cd $HOME/Desktop/ && pwd && ls"
+  alias down="cd /mnt/d/Users/$(whoami)/Downloads/ && pwd && ls"
 fi
 
 # Linux
