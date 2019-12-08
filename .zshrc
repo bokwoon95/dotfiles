@@ -131,20 +131,6 @@ elif echo $0 | grep -q zsh; then
   PS1="$PS1"$'\n'"%n%B$%b "
 fi
 
-# FZF
-if echo $0 | grep -q bash; then
-  [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-elif echo $0 | grep -q zsh; then
-  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-fi
-if command -v ag >/dev/null 2>&1; then
-  export FZF_DEFAULT_COMMAND='ag --hidden -u --ignore .git -g ""'
-elif command -v rg >/dev/null 2>&1; then
-  export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
-else
-  export FZF_DEFAULT_COMMAND='find .'
-fi
-
 # Keys
 if echo $0 | grep -q zsh; then
   # To see the key combo you want to use just do:
@@ -378,7 +364,7 @@ if [ ! "${TMUX+x}" ] && command -v tmux &>/dev/null; then
 fi
 
 # Go # TODO: figure out how to setup go automatically
-export GOROOT=/home/bokwoon/.go
+export GOROOT=/usr/local/go
 export PATH=$GOROOT/bin:$PATH
 export GOPATH=/home/bokwoon/go
 export PATH=$GOPATH/bin:$PATH
@@ -397,3 +383,17 @@ fi
 
 # Python
 alias sv="source venv/bin/activate"
+
+# FZF (keep this at the end of the file)
+if echo $0 | grep -q bash; then
+  [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+elif echo $0 | grep -q zsh; then
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+fi
+if command -v ag >/dev/null 2>&1; then
+  export FZF_DEFAULT_COMMAND='ag --hidden -u --ignore .git -g ""'
+elif command -v rg >/dev/null 2>&1; then
+  export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
+else
+  export FZF_DEFAULT_COMMAND='find .'
+fi
