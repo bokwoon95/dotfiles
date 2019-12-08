@@ -74,6 +74,7 @@ if ! command -v node &>/dev/null; then
   curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
   sudo apt-get install -y nodejs
 fi
+export GOROOT=/usr/local/go
 ! command -v go &>/dev/null && curl https://raw.githubusercontent.com/canha/golang-tools-install-script/master/goinstall.sh | bash
 ! command -v rustc &>/dev/null && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
