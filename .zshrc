@@ -365,7 +365,7 @@ fi
 
 # Go
 export GOROOT='/usr/local/go'
-path-prepend "$GOROOT"
+path-prepend "$GOROOT/bin"
 export GOPATH="$HOME/go"
 path-prepend "$GOPATH"
 alias g="git "
