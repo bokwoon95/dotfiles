@@ -64,19 +64,35 @@ symlink "$HOME/.vim/Ultisnips/" "$HOME/.config/nvim/"
 [ ! -d "$HOME/.zsh/zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.zsh/zsh-autosuggestions"
 [ ! -d "$HOME/.tmux/plugins/tpm" ] && git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
 
-# gitconfig aliases
-! git config --list | grep -q alias.facpush && sudo bash -c "$(curl https://raw.githubusercontent.com/bokwoon95/setup/master/gitconfig.sh)"
 # grepf and rgrepf
 ! command -v grepf &>/dev/null && sudo bash -c "$(curl https://raw.githubusercontent.com/bokwoon95/grepf/master/install)"
 
-# Programming languages
+# Node
 if ! command -v node &>/dev/null; then
   curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
   sudo apt-get install -y nodejs
 fi
+
+# Go
 export GOROOT=/usr/local/go
 ! command -v go &>/dev/null && curl https://raw.githubusercontent.com/canha/golang-tools-install-script/master/goinstall.sh | bash
-! command -v rustc &>/dev/null && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Fix WSL permissions
+if grep -q Linux  && command -v clip.exe &>/dev/null; then
+echo '[automount]
+enabled = true
+options = "metadata,umask=22,fmask=11"
+' | sudo tee -a /etc/wsl.conf
+  echo '[ "$(umask)" = "0000" ] && unmask 0022' >> "$HOME/.profile"
+fi
+
+# Needs interaction #
 
 # QoL
 sudo apt-get install -y ffmpeg youtube-dl asciinema imagemagick cmus weechat build-essential
+
+# gitconfig aliases
+! git config --list | grep -q alias.facpush && sudo bash -c "$(curl https://raw.githubusercontent.com/bokwoon95/setup/master/gitconfig.sh)"
+
+# Rust
+! command -v rustc &>/dev/null && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
