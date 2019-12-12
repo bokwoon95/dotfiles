@@ -74,16 +74,33 @@ if ! command -v node &>/dev/null; then
 fi
 
 # Go
-export GOROOT=/usr/local/go
-! command -v go &>/dev/null && curl https://raw.githubusercontent.com/canha/golang-tools-install-script/master/goinstall.sh | bash
+install_go() {
+  local gourl="$(curl -sSL https://golang.org/dl/ | grep -oE 'href="https://dl.google.com/go/go.*linux-amd64.*\.tar\.gz"' | sed 's#href="\(.*\)"#\1#' | head -1)"
+  local goroot='/usr/local/go'
+  local dest='/tmp/go.tar.gz'
+  if [ ! "$gourl" ]; then
+    echo "ERROR: No download url was grepped from https://golang.org/dl/"
+    return
+  fi
+  curl -o "$dest" "$gourl"
+  sudo mkdir -p "$goroot"
+  echo "Installing go from $dest"
+  if sudo tar -C "$goroot" --strip-components=1 -xzf "$dest"; then
+    echo "Successfully installed go from $dest"
+  else
+    echo "Failed to install go from $dest"
+  fi
+}
+! command -v go &>/dev/null && install_go
 
 # Fix WSL permissions
 if grep -q Linux  && command -v clip.exe &>/dev/null; then
-echo '[automount]
+  if [ ! -f '/etc/wsl.conf' ]; then
+    echo '[automount]
 enabled = true
-options = "metadata,umask=22,fmask=11"
-' | sudo tee -a /etc/wsl.conf
-  echo '[ "$(umask)" = "0000" ] && unmask 0022' >> "$HOME/.profile"
+options = "metadata,umask=22,fmask=11"' | sudo tee -a /etc/wsl.conf
+    echo '[ "$(umask)" = "0000" ] && unmask 0022' >> "$HOME/.profile"
+  fi
 fi
 
 # Needs interaction #

@@ -363,11 +363,11 @@ if [ ! "${TMUX+x}" ] && command -v tmux &>/dev/null; then
   fi
 fi
 
-# Go # TODO: figure out how to setup go automatically
-export GOROOT=/usr/local/go
-export PATH=$GOROOT/bin:$PATH
-export GOPATH=/home/bokwoon/go
-export PATH=$GOPATH/bin:$PATH
+# Go
+export GOROOT='/usr/local/go'
+path-prepend "$GOROOT"
+export GOPATH="$HOME/go"
+path-prepend "$GOPATH"
 alias g="git "
 
 # OCaml
