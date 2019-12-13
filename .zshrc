@@ -385,12 +385,20 @@ fi
 alias sv="source venv/bin/activate"
 
 # Docker
-if [ "$wsl" ]; then
-  if command -v docker &>/dev/null; then
-    alias dk='docker'
-  elif command -v docker.exe &>/dev/null; then
-    alias dk='docker.exe'
-  fi
+if command -v docker &>/dev/null; then
+  alias dk='docker'
+  docker="$(command -v docker)"
+elif command -v docker.exe &>/dev/null; then
+  alias dk='docker.exe'
+  docker="$(command -v docker.exe)"
+fi
+if command -v dk &>/dev/null && [ "$docker" ] ; then
+  dkpurge() {
+    "$docker" ps -aq --filter 'status=exited' --filter 'name=/\w+_\w+$' | xargs "$docker" rm
+    "$docker" image prune -f
+    "$docker" volume prune -f
+    "$docker" network prune -f
+  }
 fi
 
 # FZF (keep this at the end of the file)
