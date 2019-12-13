@@ -384,6 +384,15 @@ fi
 # Python
 alias sv="source venv/bin/activate"
 
+# Docker
+if [ "$wsl" ]; then
+  if command -v docker &>/dev/null; then
+    alias dk='docker'
+  elif command -v docker.exe &>/dev/null; then
+    alias dk='docker.exe'
+  fi
+fi
+
 # FZF (keep this at the end of the file)
 if echo $0 | grep -q bash; then
   [ -f ~/.fzf.bash ] && source ~/.fzf.bash
