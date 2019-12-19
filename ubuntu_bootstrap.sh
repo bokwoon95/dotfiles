@@ -94,7 +94,7 @@ install_go() {
 ! command -v go &>/dev/null && install_go
 
 # Fix WSL permissions
-if grep -q Linux  && command -v clip.exe &>/dev/null; then
+if uname | grep -q Linux  && command -v clip.exe &>/dev/null; then
   if [ ! -f '/etc/wsl.conf' ]; then
     echo '[automount]
 enabled = true

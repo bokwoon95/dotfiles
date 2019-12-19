@@ -384,15 +384,17 @@ fi
 # Python
 alias sv="source venv/bin/activate"
 
+# Rust
+[ -f "$HOME/.cargo/bin" ] && path-append "$HOME/.cargo/bin"
+
 # Docker
-if command -v docker &>/dev/null; then
-  alias dk='docker'
-  docker="$(command -v docker)"
-elif command -v docker.exe &>/dev/null; then
-  alias dk='docker.exe'
-  docker="$(command -v docker.exe)"
+if command -v docker.exe &>/dev/null; then
+  alias docker='docker.exe'
+  alias docker-compose='docker-compose.exe'
 fi
-if command -v dk &>/dev/null && [ "$docker" ] ; then
+if command -v docker &>/dev/null; then
+  docker="$(command -v docker)"
+  echo "$docker" | grep -q docker.exe && docker="$(command -v docker.exe)"
   dkpurge() {
     "$docker" ps -aq --filter 'status=exited' --filter 'name=/\w+_\w+$' | xargs "$docker" rm
     "$docker" image prune -f
