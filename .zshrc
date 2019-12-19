@@ -367,7 +367,7 @@ fi
 export GOROOT='/usr/local/go'
 path-prepend "$GOROOT/bin"
 export GOPATH="$HOME/go"
-path-prepend "$GOPATH"
+path-prepend "$GOPATH/bin"
 alias g="git "
 
 # OCaml
