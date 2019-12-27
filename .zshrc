@@ -1,10 +1,10 @@
 uname | grep -q Darwin && export macos=true
-uname | grep -q MINGW && ! command -v pacman &>/dev/null && export gitbash=true
-uname | grep -q Linux  && command -v clip.exe &>/dev/null && export wsl=true
-uname | grep -q Linux  && ! command -v clip.exe &>/dev/null && export linux=true
+uname | grep -q MINGW && ! command -v pacman >/dev/null 2>&1 && export gitbash=true
+uname | grep -q Linux  && command -v clip.exe >/dev/null 2>&1 && export wsl=true
+uname | grep -q Linux  && ! command -v clip.exe >/dev/null 2>&1 && export linux=true
 path-prepend() { [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && PATH="$1${PATH:+":$PATH"}"; }
 path-append() { [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && PATH="${PATH:+"$PATH:"}$1"; }
-command -v tput &>/dev/null && ( tput setaf || tput AF ) &>/dev/null && COLORS_SUPPORTED=true
+command -v tput >/dev/null 2>&1 && ( tput setaf || tput AF ) >/dev/null 2>&1 && COLORS_SUPPORTED=true
 stty -ixon
 path-append "$HOME/local/bin"
 
@@ -94,10 +94,10 @@ elif echo $0 | grep -q zsh; then
 fi
 
 # Editor
-if command -v nvim &>/dev/null; then
+if command -v nvim >/dev/null 2>&1; then
   alias vim="nvim"
   export EDITOR="nvim"
-elif command -v vim &>/dev/null; then
+elif command -v vim >/dev/null 2>&1; then
   export EDITOR="vim"
 fi
 [ -f "$HOME/minvim/min.vim" ] && alias minvim="vim -u $HOME/minvim/min.vim"
@@ -105,10 +105,10 @@ fi
 # PS1
 if echo $0 | grep -q bash; then
   if [ "$COLORS_SUPPORTED" ]; then
-    if ! command -v __git_ps1 &>/dev/null && [ -f "$HOME/dotfiles/git-prompt.sh" ]; then
+    if ! command -v __git_ps1 >/dev/null 2>&1 && [ -f "$HOME/dotfiles/git-prompt.sh" ]; then
       . "$HOME/dotfiles/git-prompt.sh"
     fi
-    if command -v __git_ps1 &>/dev/null; then
+    if command -v __git_ps1 >/dev/null 2>&1; then
       PS1='\H \[`tput bold`\]\w\[`tput sgr0`\] `__git_ps1 "(%s)"`\n\u\[`tput bold`\]\$\[`tput sgr0`\] '
     else
       PS1='\H \[`tput bold`\]\w\[`tput sgr0`\]\n\u\[`tput bold`\]\$\[`tput sgr0`\] '
@@ -167,25 +167,25 @@ if echo $0 | grep -q zsh; then
 fi
 
 # youtube-dl
-if command -v youtube-dl &>/dev/null; then
+if command -v youtube-dl >/dev/null 2>&1; then
   youtube-dl3() {
     local help='Provide Youtube URL(s) to extract their mp3. Playlist URLs will have all their audio files inside extracted. Make sure to surround the URL in quotes'
     [ $# -eq 0 ] && echo "$help" && return
-    for url in "$@"; do 
+    for url in "$@"; do
       youtube-dl -x --audio-format mp3 "$url"
     done
   }
   youtube-dl4() {
     local help='Provide Youtube URL(s) to extract their mp4. Playlist URLs will have all their audio files inside extracted. Make sure to surround the URL in quotes'
     [ $# -eq 0 ] && echo "$help" && return
-    for url in "$@"; do 
+    for url in "$@"; do
       youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "$url"
     done
   }
 fi
 
 # ffmpeg
-if command -v ffmpeg &>/dev/null; then
+if command -v ffmpeg >/dev/null 2>&1; then
   fftrim() {
 local help="HOW TO USE: fftrim takes in 3 arguments, input_file.mp3/.mp4, start_time, duration
 EXAMPLE: fftrim song.mp3 0 1:00     (trims song.mp3 from 0:00 onward, output duration will be 1 minute long
@@ -198,7 +198,7 @@ EXAMPLE: fftrim video.mp4 0:30 1:00 (trims video.mp4 from 0:30 onward, output du
     ffmpeg -i "$1" -ss "$2" -t "$3" -acodec copy vsync 2 "$fname$fext"
   }
   ffadeout() {
-local help="HOW TO USE: ffadeoutmp3 takes in 3 arguments, input_file.mp3, start_of_fade(only accepts minutes:seconds format), duration_of_fade(how long the fade should be stretched over, in seconds. 
+local help="HOW TO USE: ffadeoutmp3 takes in 3 arguments, input_file.mp3, start_of_fade(only accepts minutes:seconds format), duration_of_fade(how long the fade should be stretched over, in seconds.
 Everything after the fade will be silenced)"
     [ $# -eq 0 ] && echo "$help" && return
     [ $# -ne 3 ] && echo 'ffadeoutmp3 takes in only 3 arguments! input_file.mp3, start_of_fade(minutes:seconds), duration_of_fade(seconds)' && return
@@ -270,7 +270,7 @@ if [ "$macos" ]; then
   alias xo=open
   alias bx='brew upgrade && brew cleanup'
   alias screensaver=/System/Library/CoreServices/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine
-  command -v rmtrash &>/dev/null && alias rmt=rmtrash
+  command -v rmtrash >/dev/null 2>&1 && alias rmt=rmtrash
   # Directories
   alias dbox="cd $HOME/Dropbox/ && pwd && ls"
   alias doc="cd $HOME/Documents/ && pwd && ls"
@@ -283,13 +283,13 @@ fi
 # Windows
 if [ "$wsl" ] || [ "$gitbash" ]; then
   xo() { cmd.exe /C start "$@"; }
-  command -v recycle.exe &>/dev/null && alias rmt='recycle.exe'
+  command -v recycle.exe >/dev/null 2>&1 && alias rmt='recycle.exe'
 fi
 
 cdls() {
   local dest="$1"
-  uname | grep -q MINGW && ! command -v pacman &>/dev/null && local gitbash=true
-  uname | grep -q Linux && command -v clip.exe &>/dev/null && local wsl=true
+  uname | grep -q MINGW && ! command -v pacman >/dev/null 2>&1 && local gitbash=true
+  uname | grep -q Linux && command -v clip.exe >/dev/null 2>&1 && local wsl=true
   cd "$dest" && pwd && ls
 }
 
@@ -343,7 +343,7 @@ alias tls="tmux ls"
 alias tks="tmux kill-session -t"
 alias tka="tmux kill-server"
 # Startup tmux
-if [ ! "${TMUX+x}" ] && command -v tmux &>/dev/null; then
+if [ ! "${TMUX+x}" ] && command -v tmux >/dev/null 2>&1; then
   if [ "$macos" ]; then
     if [ "$TERM_PROGRAM" == 'iTerm.app' ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s main
@@ -388,11 +388,11 @@ alias sv="source venv/bin/activate"
 [ -f "$HOME/.cargo/bin" ] && path-append "$HOME/.cargo/bin"
 
 # Docker
-if command -v docker.exe &>/dev/null; then
+if command -v docker.exe >/dev/null 2>&1; then
   alias docker='docker.exe'
   alias docker-compose='docker-compose.exe'
 fi
-if command -v docker &>/dev/null; then
+if command -v docker >/dev/null 2>&1; then
   docker="$(command -v docker)"
   echo "$docker" | grep -q docker.exe && docker="$(command -v docker.exe)"
   dkpurge() {
