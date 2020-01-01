@@ -95,11 +95,12 @@ fi
 
 # Editor
 if command -v nvim >/dev/null 2>&1; then
-  alias vim="nvim"
-  export EDITOR="nvim"
+  alias vim='nvim'
+  export EDITOR='nvim'
 elif command -v vim >/dev/null 2>&1; then
-  export EDITOR="vim"
+  export EDITOR='vim'
 fi
+alias gim='vim -u NONE'
 [ -f "$HOME/minvim/min.vim" ] && alias minvim="vim -u $HOME/minvim/min.vim"
 
 # PS1
@@ -303,11 +304,11 @@ fi
 
 # WSL
 if [ "$wsl" ]; then
-  alias dbox="cd /mnt/c/Users/cbw/Dropbox/ && pwd && ls"
-  alias doc="cd /mnt/c/Users/cbw/Documents/ && pwd && ls"
-  alias desk="cd /mnt/c/Users/cbw/Desktop/ && pwd && ls"
-  alias down="cd /mnt/d/Users/cbw/Downloads/ && pwd && ls"
-  alias home="cd /mnt/c/Users/cbw && pwd && ls"
+  alias dbox='cd /mnt/c/Users/cbw/Dropbox/ && pwd && ls'
+  alias doc='cd /mnt/c/Users/cbw/Documents/ && pwd && ls'
+  alias desk='cd /mnt/c/Users/cbw/Desktop/ && pwd && ls'
+  alias down='cd /mnt/d/Users/cbw/Downloads/ && pwd && ls'
+  alias home='cd /mnt/c/Users/cbw && pwd && ls'
 fi
 
 # Linux
@@ -339,9 +340,9 @@ tax () {
     TERM=screen-256color-bce tmux -u new-session -A -s "$1"
   fi
 }
-alias tls="tmux ls"
-alias tks="tmux kill-session -t"
-alias tka="tmux kill-server"
+alias tls='tmux ls'
+alias tks='tmux kill-session -t'
+alias tka='tmux kill-server'
 # Startup tmux
 if [ ! "${TMUX+x}" ] && command -v tmux >/dev/null 2>&1; then
   if [ "$macos" ]; then
@@ -368,7 +369,7 @@ export GOROOT='/usr/local/go'
 path-prepend "$GOROOT/bin"
 export GOPATH="$HOME/go"
 path-prepend "$GOPATH/bin"
-alias g="git "
+alias g='git '
 
 # OCaml
 if echo $0 | grep -q bash; then
@@ -382,7 +383,11 @@ if [ -d "$HOME/.opam" ]; then
 fi
 
 # Python
-alias sv="source venv/bin/activate"
+if command -v python >/dev/null 2>&1; then
+  alias sv='source venv/bin/activate'
+  alias py='python3'
+  [ "$VIMRUNTIME" ] && [ "$VIRTUAL_ENV" ] && [ -f "$VIRTUAL_ENV/bin/activate" ] && source "$VIRTUAL_ENV/bin/activate"
+fi
 
 # Rust
 [ -f "$HOME/.cargo/bin" ] && path-append "$HOME/.cargo/bin"
