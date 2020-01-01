@@ -387,6 +387,10 @@ if command -v python >/dev/null 2>&1; then
   alias sv='source venv/bin/activate'
   alias py='python3'
   [ "$VIMRUNTIME" ] && [ "$VIRTUAL_ENV" ] && [ -f "$VIRTUAL_ENV/bin/activate" ] && source "$VIRTUAL_ENV/bin/activate"
+  python_version_info="$(python -c 'import sys;print(sys.version_info[:])' | sed 's/^(\|)$//g')"
+  if [ "$(echo $python_version_info | awk -F, '{print $1}')" = '2' ]; then
+    alias pip='pip3'
+  fi
 fi
 
 # Rust
