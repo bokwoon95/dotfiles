@@ -12,7 +12,7 @@ export LESS='-RiMSFX#4'
 
 if echo $0 | grep -q bash; then
   shopt -s checkwinsize # update the value of LINES and COLUMNS after each command
-  shopt -s globstar # enable recursive **
+  [ "${BASH_VERSINFO:-0}" -ge 4 ] && shopt -s globstar # enable recursive **
 elif echo $0 | grep -q zsh; then
   setopt NO_BEEP # don't beep on error
   setopt INTERACTIVE_COMMENTS # Allow comments even in interactive shells (especially for Muness)
@@ -320,9 +320,9 @@ fi
 tax () {
   if [ $# -eq 0 ]; then
     if [ "$macos" ]; then
-      if [ "$TERM_PROGRAM" == 'iTerm.app' ]; then
+      if [ "$TERM_PROGRAM" = 'iTerm.app' ]; then
         TERM=screen-256color-bce tmux -u new-session -A -s main
-      elif [ "$TERM_PROGRAM" == 'Apple_Terminal' ]; then
+      elif [ "$TERM_PROGRAM" = 'Apple_Terminal' ]; then
         TERM=screen-256color-bce tmux -u new-session -A -s term
       elif [ "$KITTY_WINDOW_ID" ]; then
         TERM=screen-256color-bce tmux -u new-session -A -s kitty
@@ -346,9 +346,9 @@ alias tka='tmux kill-server'
 # Startup tmux
 if [ ! "${TMUX+x}" ] && command -v tmux >/dev/null 2>&1; then
   if [ "$macos" ]; then
-    if [ "$TERM_PROGRAM" == 'iTerm.app' ]; then
+    if [ "$TERM_PROGRAM" = 'iTerm.app' ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s main
-    elif [ "$TERM_PROGRAM" == 'Apple_Terminal' ]; then
+    elif [ "$TERM_PROGRAM" = 'Apple_Terminal' ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s term
     elif [ "$KITTY_WINDOW_ID" ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s kitty
