@@ -9,6 +9,8 @@ stty -ixon
 path-append "$HOME/local/bin"
 
 export LESS='-RiMSFX#4'
+export CLICOLOR=1
+export LC_ALL='en_US.UTF-8'
 
 if echo $0 | grep -q bash; then
   shopt -s checkwinsize # update the value of LINES and COLUMNS after each command
