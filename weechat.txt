@@ -17,7 +17,7 @@
 /set irc.server.freenode.sasl_username <nickname>
 /set irc.server.freenode.sasl_password <password>
 /set irc.server.freenode.autoconnect on
-/set irc.server.freenode.autojoin #vim,#go-nuts
+/set irc.server.freenode.autojoin #vim,#go-nuts,#postgresql
 /save
 
 # Gitter
