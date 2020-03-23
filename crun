@@ -1,0 +1,21 @@
+#!/bin/bash
+
+in="$1"
+out="$(echo "$in" | sed 's/\.c$//g')"
+rand="$(date +%s)$(LC_ALL=C tr -dc a-zA-Z0-9 < /dev/urandom | head -c10)"
+cleanup() {
+  rm -rf "$rand$out"
+}
+trap cleanup EXIT
+if ! clang -Wall -Wextra "$in" -o "$rand$out"; then
+  exit 1
+fi
+if ! clang -Wall -Wextra -Werror "$in" -o "$rand$out" >/dev/null 2>&1; then
+  read -p 'Warnings detected, proceed? (enter to proceed, n to abort) ' proceed
+  if [ "$proceed" = 'n' ]; then
+    printf 'aborted\n\n'
+    exit 1
+  fi
+fi
+echo
+./"$rand$out"

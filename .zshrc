@@ -398,6 +398,9 @@ fi
 # Rust
 [ -f "$HOME/.cargo/bin" ] && path-append "$HOME/.cargo/bin"
 
+# Clang
+path-prepend '/usr/local/opt/llvm/bin'
+
 # Docker
 if command -v docker.exe >/dev/null 2>&1; then
   alias docker='docker.exe'
