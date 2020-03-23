@@ -1,16 +1,24 @@
 #!/bin/bash
 
-in="$1"
-out="$(echo "$in" | sed 's/\.c$//g')"
+# Unpack script arguments
+argc="$#";: "$((i=0))"
+while [ "$((i))" -lt "$argc" ]; do
+  case "$1" in
+    --nowarn|--nw) NoWarn='true';;
+    *) files="$files $1";;
+  esac
+  shift;: "$((i=i+1))"
+done
+
 rand="$(date +%s)$(LC_ALL=C tr -dc a-zA-Z0-9 < /dev/urandom | head -c10)"
 cleanup() {
-  rm -rf "$rand$out"
+  rm -rf "$rand"
 }
 trap cleanup EXIT
-if ! clang -Wall -Wextra "$in" -o "$rand$out"; then
+if ! clang -Wall -Wextra $files -o "$rand"; then
   exit 1
 fi
-if ! clang -Wall -Wextra -Werror "$in" -o "$rand$out" >/dev/null 2>&1; then
+if [ ! "$NoWarn" ] && ! clang -Wall -Wextra -Werror $files -o "$rand" >/dev/null 2>&1; then
   read -p 'Warnings detected, proceed? (enter to proceed, n to abort) ' proceed
   if [ "$proceed" = 'n' ]; then
     printf 'aborted\n\n'
@@ -18,4 +26,4 @@ if ! clang -Wall -Wextra -Werror "$in" -o "$rand$out" >/dev/null 2>&1; then
   fi
 fi
 echo
-./"$rand$out"
+./"$rand"
