@@ -372,6 +372,7 @@ path-prepend "$GOROOT/bin"
 export GOPATH="$HOME/go"
 path-prepend "$GOPATH/bin"
 alias g='git '
+alias dlv='dlv --check-go-version=false'
 
 # OCaml
 if echo $0 | grep -q bash; then
