@@ -7,6 +7,7 @@ path-append() { [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && PATH="${PATH:+"$PA
 command -v tput >/dev/null 2>&1 && ( tput setaf || tput AF ) >/dev/null 2>&1 && COLORS_SUPPORTED=true
 stty -ixon
 path-append "$HOME/local/bin"
+path-append "$HOME/.local/bin"
 
 export LESS='-RiMSFX#4'
 export CLICOLOR=1
