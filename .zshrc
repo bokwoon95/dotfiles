@@ -419,6 +419,10 @@ if command -v docker >/dev/null 2>&1; then
   }
 fi
 
+# Escaping strings in Bash using !:q
+# https://news.ycombinator.com/item?id=24659282
+bashquote() { printf '%q\n' "$(cat)"; }
+
 # FZF (keep this at the end of the file)
 if echo $0 | grep -q bash; then
   [ -f ~/.fzf.bash ] && source ~/.fzf.bash
