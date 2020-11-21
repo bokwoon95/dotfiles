@@ -172,6 +172,7 @@ fi
 
 # youtube-dl
 if command -v youtube-dl >/dev/null 2>&1; then
+  alias ydl=youtube-dl
   youtube-dl3() {
     local help='Provide Youtube URL(s) to extract their mp3. Playlist URLs will have all their audio files inside extracted. Make sure to surround the URL in quotes'
     [ $# -eq 0 ] && echo "$help" && return
@@ -399,6 +400,10 @@ fi
 
 # Rust
 [ -f "$HOME/.cargo/bin" ] && path-append "$HOME/.cargo/bin"
+
+# Haskell
+[ -f "/Users/bokwoon/.ghcup/env" ] && source "/Users/bokwoon/.ghcup/env" # ghcup-env
+path-append "$HOME/.local/bin" # Stack
 
 # Clang
 path-prepend '/usr/local/opt/llvm/bin'
