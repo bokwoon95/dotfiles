@@ -9,15 +9,15 @@
 /set weechat.look.save_layout_on_exit all
 /save
 
-# Freenode
-/server add freenode chat.freenode.net/6697 -ssl
-/set irc.server.freenode.addresses "chat.freenode.net/6697"
-/set irc.server.freenode.ssl on
-/set irc.server.freenode.sasl_mechanism PLAIN
-/set irc.server.freenode.sasl_username <nickname>
-/set irc.server.freenode.sasl_password <password>
-/set irc.server.freenode.autoconnect on
-/set irc.server.freenode.autojoin #vim,#go-nuts,#postgresql
+# Libera
+/server add libera irc.libera.chat/6697 -ssl
+/set irc.server.libera.addresses "irc.libera.chat/6697"
+/set irc.server.libera.ssl on
+/set irc.server.libera.sasl_mechanism PLAIN
+/set irc.server.libera.sasl_username <nickname>
+/set irc.server.libera.sasl_password <password>
+/set irc.server.libera.autoconnect on
+/set irc.server.libera.autojoin #vim,#go-nuts,#postgresql
 /save
 
 # Gitter

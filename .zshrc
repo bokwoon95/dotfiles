@@ -172,7 +172,7 @@ fi
 
 # youtube-dl
 if command -v youtube-dl >/dev/null 2>&1; then
-  alias ydl=youtube-dl
+  alias ydl="youtube-dl -f 'bestvideo[height<=480]+bestaudio/best[height<=480]'"
   youtube-dl3() {
     local help='Provide Youtube URL(s) to extract their mp3. Playlist URLs will have all their audio files inside extracted. Make sure to surround the URL in quotes'
     [ $# -eq 0 ] && echo "$help" && return
@@ -353,7 +353,7 @@ if [ ! "${TMUX+x}" ] && command -v tmux >/dev/null 2>&1; then
     if [ "$TERM_PROGRAM" = 'iTerm.app' ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s main
     elif [ "$TERM_PROGRAM" = 'Apple_Terminal' ]; then
-      TERM=screen-256color-bce tmux -u new-session -A -s term
+      # TERM=screen-256color-bce tmux -u new-session -A -s term
     elif [ "$KITTY_WINDOW_ID" ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s kitty
     fi
@@ -369,12 +369,14 @@ if [ ! "${TMUX+x}" ] && command -v tmux >/dev/null 2>&1; then
 fi
 
 # Go
-export GOROOT='/usr/local/go'
 path-prepend "$GOROOT/bin"
 export GOPATH="$HOME/go"
 path-prepend "$GOPATH/bin"
 alias g='git '
 alias dlv='dlv --check-go-version=false'
+
+# homebrew sqlite
+path-prepend '/usr/local/opt/sqlite/bin'
 
 # OCaml
 if echo $0 | grep -q bash; then
